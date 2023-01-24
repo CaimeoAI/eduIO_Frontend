@@ -8,7 +8,7 @@ export const useRooms = () => {
      return useContext(RoomContext)
 }
 
-const socket = io.connect('http://localhost:3001')
+const socket = io.connect('https://eduio-socketioserver.onrender.com')
 
 export function RoomsProvider({ children }) {
 
