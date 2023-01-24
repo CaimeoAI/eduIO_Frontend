@@ -8,7 +8,7 @@ export const useRooms = () => {
      return useContext(RoomContext)
 }
 
-const socket = io.connect(process.env.REACT_BE_URL)
+const socket = io.connect('http://localhost:3001')
 
 export function RoomsProvider({ children }) {
 
