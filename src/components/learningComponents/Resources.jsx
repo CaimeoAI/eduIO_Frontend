@@ -7,11 +7,20 @@ export default function Resources() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("https://web-dev-resources/api")
+    fetch("https://roadmap.sh/jsons/roadmaps/javascript.json")
       .then((res) => res.json())
       .then((data) => {
+        const controls = data.mockup.controls.control;
+        console.log("control", controls); // control is an array of objects
+
+        const filteredResources = controls.filter((control) => {
+          return control.typeID !== "Arrow";
+        });
+        console.log("filteredResources", filteredResources);
+
         console.log(data);
-        setResources(data);
+        setResources(filteredResources);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -24,27 +33,13 @@ export default function Resources() {
   if (error) return <p>Error!</p>;
 
   return (
-    <div>
+    <div className="flex flex-wrap my-6 align-center justify-center">
       {loading && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
       {resources &&
-        resources.map((resource) => (
-          <div key={resource.id}>
-            <h1 className="">{resource.name}</h1>
-
-            <a
-              className="my-6 bg-accent-secondary  text-text-primary px-6 mt-12 py-2  hover:bg-active"
-              target="_blank"
-              rel="noreferrer"
-              href={resource.url}
-            >
-              Start the quiz
-            </a>
-            <p>{resource.start_time}</p>
-            <p>{resource.end_time}</p>
-            <p className="mb-2">duration:{resource.duration}</p>
-          </div>
-        ))}
+        resources.map((resource) => {
+          return <h1 className="shadow-text-secondary shadow-lg text-lg text-center hover:cursor-pointer hover:bg-grayed-out md:w-[15%] border-text-primary  m-4 p-1 rounded bg-accent-secondary">{resource.properties?.controlName}</h1>
+        })}
     </div>
   );
 }
